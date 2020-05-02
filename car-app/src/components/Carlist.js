@@ -1,6 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, useMemo, useState, useEffect } from "react";
+// import 'react-table/react-table.css';
+import Table from "./Table";
+
 import { SERVER_URL } from '../contants'
 class Carlist extends Component {
+
+
+
+
+
     constructor(props) {
         super(props);
         this.state = { cars: [] };
@@ -17,23 +25,30 @@ class Carlist extends Component {
             .catch(err => console.error(err));
     }
 
-
     render() {
-        const tableRows = this.state.cars.map((car, index) =>
-            <tr key={index}>
-                <td>{car.brand}</td>
-                <td>{car.model}</td>
-                <td>{car.color}</td>
-                <td>{car.year}</td>
-                <td>{car.price}</td>
-            </tr>
-        );
+
+
+        const columns = [{
+            Header: 'Brand',
+            accessor: 'brand'
+        }, {
+            Header: 'Model',
+            accessor: 'model',
+        }, {
+            Header: 'Color',
+            accessor: 'color',
+        }, {
+            Header: 'Year',
+            accessor: 'year',
+        }, {
+            Header: 'Price €',
+            accessor: 'price',
+        },]
 
         return (
             <div className="App">
-                <table>
-                    <tbody>{tableRows}</tbody>
-                </table>
+                <Table data={this.state.cars} columns={columns}
+                    filterable={true} />
             </div>
         );
     }
